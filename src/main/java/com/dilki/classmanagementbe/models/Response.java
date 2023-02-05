@@ -2,7 +2,7 @@ package com.dilki.classmanagementbe.models;
 
 public class Response {
     private String status;
-    private Student result;
+    private Object result;
     private String reason;
     public Response(String status) {
         this.status = status;
@@ -12,7 +12,7 @@ public class Response {
         return status;
     }
 
-    public Student getResult() {
+    public Object getResult() {
         return result;
     }
 
@@ -24,7 +24,7 @@ public class Response {
         this.status = status;
     }
 
-    public void setResult(Student result) {
+    public void setResult(Object result) {
         this.result = result;
     }
 

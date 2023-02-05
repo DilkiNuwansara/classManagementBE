@@ -1,5 +1,6 @@
-package com.dilki.classmanagementbe.DB;
+package com.dilki.classmanagementbe.Services;
 
+import com.dilki.classmanagementbe.DB.ConnectionDb;
 import com.dilki.classmanagementbe.models.Response;
 import com.dilki.classmanagementbe.models.Student;
 
@@ -9,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class StudentData {
+public class StudentServices {
     public static ArrayList<Student> getStudentDetails() throws SQLException {
         ConnectionDb c1 = new ConnectionDb();
         Connection con = c1.Connect();

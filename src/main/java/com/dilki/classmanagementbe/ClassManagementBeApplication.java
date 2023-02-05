@@ -1,11 +1,12 @@
 package com.dilki.classmanagementbe;
 
-import com.dilki.classmanagementbe.DB.StudentData;
+import com.dilki.classmanagementbe.Services.StudentServices;
+import com.dilki.classmanagementbe.Services.TeacherServices;
 import com.dilki.classmanagementbe.models.Response;
 import com.dilki.classmanagementbe.models.Student;
+import com.dilki.classmanagementbe.models.Teacher;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -22,39 +23,34 @@ public class ClassManagementBeApplication {
 
     @GetMapping("/getStudentDetails/")
     public ArrayList<Student> getStudentDetails() throws SQLException {
-
-        return StudentData.getStudentDetails();
+         return StudentServices.getStudentDetails();
     }
 
-    @PostMapping(value = "/setStudentDetails/",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping("/setStudentDetails/")
     public Response setStudentDetails(@RequestBody Student student) throws SQLException {
-//        String stName = student.getStName();
-//        int stId = student.getStId();
-//        String stGender = student.getStGender();
-//        String stClass = student.getStClass();
-//        String stBday = student.getStBday();
-
-//        System.out.println(stName);
-//        System.out.println(stId);
-//        System.out.println(stGender);
-//        System.out.println(stClass);
-//        System.out.println(stBday);
-
-        return StudentData.setStudentDetails(student);
-
+         return StudentServices.setStudentDetails(student);
     }
 
-    @GetMapping(value ="/getStudentById/",produces = MediaType.APPLICATION_JSON_VALUE )
+    @GetMapping("/getStudentById/")
     public Response getStudentById(@RequestParam int studentId) throws SQLException {
-        return StudentData.getStudentById(studentId);
+        return StudentServices.getStudentById(studentId);
     }
-    @DeleteMapping (value = "/deleteStudentById/", consumes = MediaType.APPLICATION_JSON_VALUE )
-    public Response deleteStudentById(@RequestBody Map<String, Integer> studentId) throws SQLException {
-        return StudentData.deleteStudentRecord(studentId.get("studentId"));
 
+    @DeleteMapping ("/deleteStudentById/")
+    public Response deleteStudentById(@RequestBody Map<String, Integer> studentId) throws SQLException {
+        return StudentServices.deleteStudentRecord(studentId.get("studentId"));
     }
-    @PatchMapping(value ="/updateStudentById/",produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @PatchMapping("/updateStudentById/")
     public Response updateStudentById(@RequestBody Student student) throws SQLException {
-        return StudentData.updateStudentById(student);
+        return StudentServices.updateStudentById(student);
+    }
+    @PostMapping("/setTeacher/")
+    public Response setTeacher(@RequestBody Teacher teacher) throws SQLException {
+        return TeacherServices.setTeacher(teacher);
+    }
+    @GetMapping("/getTeachers/")
+    public Response getTeachers() throws SQLException {
+        return TeacherServices.getTeachers();
     }
 }
