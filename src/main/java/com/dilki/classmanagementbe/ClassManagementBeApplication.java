@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
 
 @SpringBootApplication
 @RestController
@@ -26,7 +27,7 @@ public class ClassManagementBeApplication {
     }
 
     @PostMapping(value = "/setStudentDetails/",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String setStudentDetails(@RequestBody Student student) throws SQLException {
+    public Response setStudentDetails(@RequestBody Student student) throws SQLException {
 //        String stName = student.getStName();
 //        int stId = student.getStId();
 //        String stGender = student.getStGender();
@@ -39,21 +40,21 @@ public class ClassManagementBeApplication {
 //        System.out.println(stClass);
 //        System.out.println(stBday);
 
-        Boolean status = StudentData.setStudentDetails(student);
-        String statusMsg = "";
-
-        if(status){
-            statusMsg = "success";
-
-        }else{
-            statusMsg = "failed";
-        }
-        return statusMsg;
+        return StudentData.setStudentDetails(student);
 
     }
 
     @GetMapping(value ="/getStudentById/",produces = MediaType.APPLICATION_JSON_VALUE )
     public Response getStudentById(@RequestParam int studentId) throws SQLException {
         return StudentData.getStudentById(studentId);
+    }
+    @DeleteMapping (value = "/deleteStudentById/", consumes = MediaType.APPLICATION_JSON_VALUE )
+    public Response deleteStudentById(@RequestBody Map<String, Integer> studentId) throws SQLException {
+        return StudentData.deleteStudentRecord(studentId.get("studentId"));
+
+    }
+    @PatchMapping(value ="/updateStudentById/",produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response updateStudentById(@RequestBody Student student) throws SQLException {
+        return StudentData.updateStudentById(student);
     }
 }
