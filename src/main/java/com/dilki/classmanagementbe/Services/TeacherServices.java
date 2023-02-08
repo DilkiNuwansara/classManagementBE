@@ -57,4 +57,62 @@ public class TeacherServices {
 
         return response;
     }
+
+    public static Response getTeacherById(int teacherId) throws SQLException {
+        ConnectionDb connectDb = new ConnectionDb();
+        Connection con = connectDb.Connect();
+        Response res = new Response();
+
+        PreparedStatement getTeacherStmt = con.prepareStatement("select * from teachers where teacherId=?");
+        getTeacherStmt.setInt(1,teacherId);
+        ResultSet teacherResultSet = getTeacherStmt.executeQuery();
+
+        if(teacherResultSet.next()){
+            Teacher t1 = new Teacher(teacherResultSet.getInt(1),teacherResultSet.getString(2),teacherResultSet.getString(3),teacherResultSet.getString(4));
+            res.setStatus("Success");
+            res.setResult(t1);
+        }else{
+            res.setStatus("Failed");
+            res.setReason("Incorrect Teacher ID");
+        }
+
+    return res;
+    }
+
+    public static Response deleteTeacherById(int teacherId) throws SQLException {
+        ConnectionDb connectDb = new ConnectionDb();
+        Connection con = connectDb.Connect();
+        Response res = new Response();
+
+        PreparedStatement dltTeacherStmt = con.prepareStatement("delete from teachers where teacherId=?");
+        dltTeacherStmt.setInt(1,teacherId);
+
+        if(!dltTeacherStmt.execute() && dltTeacherStmt.getUpdateCount()>0){
+            res.setStatus("success");
+        }else{
+            res.setStatus("Failed");
+        }
+        return res;
+    }
+
+    public static Response updateTeacherById(Teacher teacher) throws SQLException {
+        ConnectionDb connectDb = new ConnectionDb();
+        Connection con = connectDb.Connect();
+        Response res = new Response();
+
+        PreparedStatement updateTeacherStmt = con.prepareStatement("update teachers set teacherName=?,teacherSubject=?,teacherGender=? where teacherId=?");
+        updateTeacherStmt.setInt(4,teacher.getTeacherId());
+        updateTeacherStmt.setString(1,teacher.getTeacherName());
+        updateTeacherStmt.setString(2,teacher.getTeacherSubject());
+        updateTeacherStmt.setString(3,teacher.getTeacherGender());
+
+        if(!updateTeacherStmt.execute() && updateTeacherStmt.getUpdateCount()>0){
+            res.setStatus("success");
+        }else{
+            res.setStatus("Failed");
+            res.setReason(String.valueOf(updateTeacherStmt.getUpdateCount()));
+        }
+        return res;
+
+    }
 }

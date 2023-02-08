@@ -53,4 +53,19 @@ public class ClassManagementBeApplication {
     public Response getTeachers() throws SQLException {
         return TeacherServices.getTeachers();
     }
+
+    @GetMapping("/getTeacherById/")
+    public Response getTeacherById(@RequestParam int teacherId) throws SQLException {
+        return TeacherServices.getTeacherById(teacherId);
+    }
+
+    @DeleteMapping("/deleteTeacherById/")
+    public Response deleteTeacherById(@RequestBody Map<String,Integer> teacherId) throws SQLException {
+        return TeacherServices.deleteTeacherById(teacherId.get("teacherId"));
+    }
+
+    @PatchMapping("/updateTeacherById/")
+    public Response updateTeacherById(@RequestBody Teacher teacher) throws SQLException {
+        return TeacherServices.updateTeacherById(teacher);
+    }
 }
